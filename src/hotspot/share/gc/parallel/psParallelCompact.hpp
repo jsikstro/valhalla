@@ -884,6 +884,8 @@ public:
     _source = addr;
   }
 
+  void reinit_mark(oop dest_oop, size_t words);
+
   // If the object will fit (size <= words_remaining()), copy it to the current
   // destination, update the interior oops and the start array.
   void do_addr(HeapWord* addr, size_t words);
