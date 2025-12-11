@@ -1477,9 +1477,9 @@ void PSParallelCompact::forward_to_new_addr() {
         oop obj = cast_to_oop(cur_addr);
 
         if (new_addr != cur_addr) {
-          const bool is_header_copied = cur_addr + oopDesc::header_size() <= end;
+          const bool full_header_in_current_region = cur_addr + oopDesc::header_size() <= end;
 
-          if (EnableValhalla && !is_header_copied) {
+          if (EnableValhalla && !full_header_in_current_region) {
             // When using Valhalla, it is necessary to preserve the Valhalla-
             // specific bits in the markWord. If the entire object header is
             // copied, the correct markWord (with the appropriate Valhalla bits)
@@ -2388,10 +2388,10 @@ void MoveAndUpdateClosure::do_addr(HeapWord* addr, size_t words) {
     assert(FullGCForwarding::forwardee(cast_to_oop(source())) == cast_to_oop(destination()), "inv");
     Copy::aligned_conjoint_words(source(), copy_destination(), words);
 
-    const bool is_header_copied = words >= (size_t)oopDesc::header_size();
+    const bool full_header_in_current_region = words >= (size_t)oopDesc::header_size();
     oop copy_dest_oop = cast_to_oop(copy_destination());
 
-    if (UseCompactObjectHeaders || (EnableValhalla && is_header_copied)) {
+    if (UseCompactObjectHeaders || (EnableValhalla && full_header_in_current_region)) {
       // It is only safe to read the klass iff we have copied the entire
       // object header.
       copy_dest_oop->set_mark(copy_dest_oop->klass()->prototype_header());
