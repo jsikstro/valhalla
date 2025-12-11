@@ -884,9 +884,11 @@ public:
     _source = addr;
   }
 
+  void reinit_mark(oop source, oop copy_destination, bool safe_header);
+
   // If the object will fit (size <= words_remaining()), copy it to the current
   // destination, update the interior oops and the start array.
-  void do_addr(HeapWord* addr, size_t words);
+  void do_addr(HeapWord* addr, size_t words, bool safe_header);
 
   inline MoveAndUpdateClosure(ParMarkBitMap* bitmap, size_t region);
 
