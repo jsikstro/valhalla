@@ -2807,7 +2807,8 @@ void TemplateTable::getfield_or_static(int byte_no, bool is_static, RewriteContr
       __ bind(is_flat);
       // field is flat (null-free or nullable with a null-marker)
       __ mov(r0, obj);
-      __ read_flat_field(cache, field_index, off, inline_klass /* temp */, r0);
+      __ call_VM(r0, CAST_FROM_FN_PTR(address, InterpreterRuntime::read_flat_field), r0, r2);
+      __ membar(Assembler::StoreStore);
       __ verify_oop(r0);
       __ push(atos);
       if (rc == may_rewrite) {
@@ -3412,8 +3413,8 @@ void TemplateTable::fast_accessfield(TosState state)
     {
       Register index = r4, tmp = r7;
       // field is flat
-      __ load_unsigned_short(index, Address(r2, in_bytes(ResolvedFieldEntry::field_index_offset())));
-      __ read_flat_field(r2, index, r1, tmp /* temp */, r0);
+      __ call_VM(r0, CAST_FROM_FN_PTR(address, InterpreterRuntime::read_flat_field), r0, r2);
+      __ membar(Assembler::StoreStore);
       __ verify_oop(r0);
     }
     break;

@@ -238,7 +238,7 @@ JRT_ENTRY(void, InterpreterRuntime::read_flat_field(JavaThread* current, oopDesc
   assert(entry->field_holder()->field_is_flat(entry->field_index()), "Sanity check");
 
   InlineLayoutInfo* layout_info = holder->inline_layout_info_adr(entry->field_index());
-  InlineKlass* field_vklass = layout_info->klass();
+  InlineKlass* field_klass = layout_info->klass();
 
 #ifdef ASSERT
   fieldDescriptor fd;
@@ -247,7 +247,7 @@ JRT_ENTRY(void, InterpreterRuntime::read_flat_field(JavaThread* current, oopDesc
   assert(fd.is_flat(), "Field must be flat");
 #endif // ASSERT
 
-  oop res = field_vklass->read_payload_from_addr(obj_h(), entry->field_offset(), layout_info->kind(), CHECK);
+  oop res = field_klass->read_payload_from_addr(obj_h(), (size_t)entry->field_offset(), layout_info->kind(), CHECK);
   current->set_vm_result_oop(res);
 JRT_END
 

@@ -163,15 +163,6 @@ class InterpreterMacroAssembler: public MacroAssembler {
                          Register t1, Register t2,
                          bool clear_fields, Label& alloc_failed);
 
-  // Allocate instance in "obj" and read in the content of the inline field
-  // NOTES:
-  //   - input holder object via "obj", which must be r0,
-  //     will return new instance via the same reg
-  //   - assumes holder_klass and valueKlass field klass have both been resolved
-  void read_flat_field(Register entry,
-                       Register field_index, Register field_offset,
-                       Register temp, Register obj);
-
   void write_flat_field(Register entry, Register field_offset,
                         Register tmp1, Register tmp2,
                         Register obj);
