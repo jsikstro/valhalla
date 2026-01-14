@@ -5727,17 +5727,22 @@ void MacroAssembler::allocate_instance(Register klass, Register new_obj,
     bind(initialize_header);
     pop(klass);
     Register mark_word = t2;
+
     if (UseCompactObjectHeaders || Arguments::is_valhalla_enabled()) {
       ldr(mark_word, Address(klass, Klass::prototype_header_offset()));
-      str(mark_word, Address(new_obj, oopDesc::mark_offset_in_bytes()));
     } else {
       mov(mark_word, (intptr_t)markWord::prototype().value());
-      str(mark_word, Address(new_obj, oopDesc::mark_offset_in_bytes()));
     }
+
+    str(mark_word, Address(new_obj, oopDesc::mark_offset_in_bytes()));
+
     if (!UseCompactObjectHeaders) {
-      store_klass_gap(new_obj, zr);  // zero klass gap for compressed oops
-      mov(t2, klass);                // preserve klass
-      store_klass(new_obj, t2);      // src klass reg is potentially compressed
+      // Potentially add klass gap for Compressed Class Pointers
+      store_klass_gap(new_obj, zr);
+
+      // Preserve klass as it might potentially be compressed when storing
+      mov(t2, klass);
+      store_klass(new_obj, t2);
     }
     b(done);
   }
