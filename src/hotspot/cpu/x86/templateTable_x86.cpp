@@ -2706,7 +2706,8 @@ void TemplateTable::getfield_or_static(int byte_no, bool is_static, RewriteContr
       __ bind(is_flat);
       // field is flat (null-free or nullable with a null-marker)
       pop_and_check_object(rax);
-      __ read_flat_field(rcx, rdx, rbx, rax);
+      __ call_VM(noreg, CAST_FROM_FN_PTR(address, InterpreterRuntime::read_flat_field), rax, rcx);
+      __ get_vm_result_oop(rax);
       __ verify_oop(rax);
       __ push(atos);
       __ bind(rewrite_inline);
@@ -3305,7 +3306,8 @@ void TemplateTable::fast_accessfield(TosState state) {
   // access field
   switch (bytecode()) {
   case Bytecodes::_fast_vgetfield:
-    __ read_flat_field(rcx, rdx, rbx, rax);
+    __ call_VM(noreg, CAST_FROM_FN_PTR(address, InterpreterRuntime::read_flat_field), rax, rcx);
+    __ get_vm_result_oop(rax);
     __ verify_oop(rax);
     break;
   case Bytecodes::_fast_agetfield:
