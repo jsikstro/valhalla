@@ -247,6 +247,8 @@ class ClassFileParser {
 
   void set_klass(InstanceKlass* instance);
 
+  void set_inline_layout_info_klass(int field_index, InlineKlass* ik, TRAPS);
+
   void set_class_bad_constant_seen(short bad_constant);
   short class_bad_constant_seen() { return  _bad_constant_seen; }
   void set_class_synthetic_flag(bool x)        { _synthetic_flag = x; }
