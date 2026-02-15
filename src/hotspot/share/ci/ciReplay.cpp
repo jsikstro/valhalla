@@ -890,19 +890,13 @@ class CompileReplay : public StackObj {
   }
 
   ObjArrayKlass* create_concrete_object_array_klass(ObjArrayKlass* obj_array_klass, TRAPS) {
-    ArrayKlass::ArrayProperties array_properties =
-    static_cast<ArrayKlass::ArrayProperties>(parse_int("array_properties"));
+    ArrayProperties array_properties = ArrayProperties(checked_cast<array_properties_flags_t>(parse_int("array_properties")));
     if (!Arguments::is_valhalla_enabled()) {
       // Ignore array properties.
       return obj_array_klass;
     }
 
-    if (array_properties != ArrayKlass::DEFAULT &&
-        array_properties != ArrayKlass::NULL_RESTRICTED &&
-        array_properties != ArrayKlass::NON_ATOMIC &&
-        array_properties != (ArrayKlass::NULL_RESTRICTED | ArrayKlass::NON_ATOMIC)) {
-      guarantee(false, "invalid array_properties: %d", array_properties);
-    }
+    guarantee(!array_properties.is_invalid(), "invalid array_properties: %d", array_properties.value());
 
     return obj_array_klass->klass_with_properties(array_properties, THREAD);
   }
