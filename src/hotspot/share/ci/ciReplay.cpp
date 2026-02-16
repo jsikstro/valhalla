@@ -890,7 +890,7 @@ class CompileReplay : public StackObj {
   }
 
   ObjArrayKlass* create_concrete_object_array_klass(ObjArrayKlass* obj_array_klass, TRAPS) {
-    ArrayProperties array_properties = ArrayProperties(checked_cast<array_properties_flags_t>(parse_int("array_properties")));
+    ArrayProperties array_properties(checked_cast<array_properties_flags_t>(parse_int("array_properties")));
     if (!Arguments::is_valhalla_enabled()) {
       // Ignore array properties.
       return obj_array_klass;
