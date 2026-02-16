@@ -32,19 +32,20 @@ class ArrayProperties {
  public:
   typedef u1 Type;
 
-#define ARRAY_PROPERTIES_FLAGS_DO(flag)  \
-    flag(is_null_restricted    , 1 << 0) \
-    flag(is_non_atomic         , 1 << 1) \
-    flag(is_invalid            , 1 << 2) \
-    /* end of list */
-
-#define ARRAY_PROPERTIES_FLAGS_ENUM_NAME(name, value)    _misc_##name = value,
   enum {
-    ARRAY_PROPERTIES_FLAGS_DO(ARRAY_PROPERTIES_FLAGS_ENUM_NAME)
+    NullRestricted = 1 << 0,
+    NonAtomic      = 1 << 1,
+    Invalid        = 1 << 2,
   };
-#undef ARRAY_PROPERTIES_FLAGS_ENUM_NAME
 
+ private:
   Type _flags;
+
+  bool check_flag(Type t) const { return (_flags & t) != 0; }
+  void set_flag(Type t, bool b) {
+    assert(!check_flag(t), "set once");
+    if (b) _flags |= t;
+  }
 
  public:
   ArrayProperties() : _flags(0) {}
@@ -52,15 +53,13 @@ class ArrayProperties {
 
   Type value() const { return _flags; }
 
-  // Create getters and setters for the flag values.
-#define ARRAY_PROPERTIES_FLAGS_GET_SET(name, ignore)          \
-  bool name() const { return (_flags & _misc_##name) != 0; } \
-  void set_##name(bool b) {         \
-    assert(!name(), "set once");    \
-    if (b) _flags |= _misc_##name; \
-  }
-  ARRAY_PROPERTIES_FLAGS_DO(ARRAY_PROPERTIES_FLAGS_GET_SET)
-#undef ARRAY_PROPERTIES_FLAGS_GET_SET
+  bool is_null_restricted() const { return check_flag(NullRestricted); };
+  bool is_non_atomic() const { return check_flag(NonAtomic); };
+  bool is_invalid() const { return check_flag(Invalid); };
+
+  void set_null_restricted() { set_flag(NullRestricted, true); }
+  void set_non_atomic() { set_flag(NonAtomic, true); }
+  void set_invalid() { set_flag(Invalid, true); }
 
   const char* as_string() {
     // Caller must have set a ResourceMark
@@ -76,7 +75,7 @@ class ArrayProperties {
 };
 
 inline bool operator==(ArrayProperties a, ArrayProperties b) {
-  return a._flags == b._flags;
+  return a.value() == b.value();
 }
 
 #endif // SHARE_OOPS_ARRAYPROPERTIES_HPP

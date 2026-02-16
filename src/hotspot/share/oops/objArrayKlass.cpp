@@ -112,8 +112,7 @@ ObjArrayKlass* ObjArrayKlass::allocate_objArray_klass(ClassLoaderData* loader_da
   Symbol* name = create_element_klass_array_name(THREAD, element_klass);
 
   // Initialize instance variables
-  ArrayProperties props;
-  props.set_is_invalid(true);
+  ArrayProperties props(ArrayProperties::Invalid);
 
   ObjArrayKlass* oak = ObjArrayKlass::allocate_klass(loader_data, n, element_klass, name, props, CHECK_NULL);
 

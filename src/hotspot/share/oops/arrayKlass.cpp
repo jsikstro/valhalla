@@ -223,11 +223,11 @@ ArrayProperties ArrayKlass::array_properties_from_layout(LayoutKind lk) {
   ArrayProperties props;
   switch(lk) {
     case LayoutKind::NULL_FREE_ATOMIC_FLAT:
-      props.set_is_null_restricted(true);
+      props.set_null_restricted();
       break;
     case LayoutKind::NULL_FREE_NON_ATOMIC_FLAT:
-      props.set_is_null_restricted(true);
-      props.set_is_non_atomic(true);
+      props.set_null_restricted();
+      props.set_non_atomic();
       break;
     case LayoutKind::NULLABLE_ATOMIC_FLAT:
       // Nothing to do

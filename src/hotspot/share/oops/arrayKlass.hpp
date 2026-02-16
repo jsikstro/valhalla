@@ -168,14 +168,14 @@ public:
       _layout_kind(lk) {
 
     if (p.is_null_restricted()) {
-      _properties.set_is_null_restricted(true);
+      _properties.set_null_restricted();
     }
 
     // Atomicity depends on the layout kind, which might be different than what
     // the given properties says
     const bool is_non_atomic = lk != LayoutKind::REFERENCE && !LayoutKindHelper::is_atomic_flat(lk);
     if (is_non_atomic) {
-      _properties.set_is_non_atomic(true);
+      _properties.set_non_atomic();
     }
   }
  };

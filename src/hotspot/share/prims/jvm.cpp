@@ -456,7 +456,7 @@ JVM_ENTRY(jarray, JVM_CopyOfSpecialArray(JNIEnv *env, jarray orig, jint from, ji
   if (org->is_flatArray()) {
     FlatArrayKlass* fak = FlatArrayKlass::cast(org->klass());
     LayoutKind lk = fak->layout_kind();
-    ArrayProperties props = ArrayKlass::array_properties_from_layout(lk);
+    const ArrayProperties props = ArrayKlass::array_properties_from_layout(lk);
     array = oopFactory::new_flatArray(vk, len, props, lk, CHECK_NULL);
     arrayHandle ah(THREAD, (arrayOop)array);
     int end = to < oh()->length() ? to : oh()->length();
@@ -469,7 +469,7 @@ JVM_ENTRY(jarray, JVM_CopyOfSpecialArray(JNIEnv *env, jarray orig, jint from, ji
   } else {
     ArrayProperties props;
     if (org->is_null_free_array()) {
-      props.set_is_null_restricted(true);
+      props.set_null_restricted();
     }
 
     array = oopFactory::new_objArray(vk, len, props,  CHECK_NULL);
@@ -498,9 +498,7 @@ JVM_ENTRY(jarray, JVM_NewNullRestrictedNonAtomicArray(JNIEnv *env, jclass elmCla
     THROW_MSG_NULL(vmSymbols::java_lang_IllegalArgumentException(), "Type mismatch between array and initial value");
   }
   validate_array_arguments(klass, len, CHECK_NULL);
-  ArrayProperties props;
-  props.set_is_null_restricted(true);
-  props.set_is_non_atomic(true);
+  const ArrayProperties props(ArrayProperties::NullRestricted | ArrayProperties::NonAtomic);
   objArrayOop array = oopFactory::new_objArray(klass, len, props, CHECK_NULL);
   for (int i = 0; i < len; i++) {
     array->obj_at_put(i, init_h() /*, CHECK_NULL*/ );
@@ -520,8 +518,7 @@ JVM_ENTRY(jarray, JVM_NewNullRestrictedAtomicArray(JNIEnv *env, jclass elmClass,
     THROW_MSG_NULL(vmSymbols::java_lang_IllegalArgumentException(), "Type mismatch between array and initial value");
   }
   validate_array_arguments(klass, len, CHECK_NULL);
-  ArrayProperties props;
-  props.set_is_null_restricted(true);
+  const ArrayProperties props(ArrayProperties::NullRestricted);
   objArrayOop array = oopFactory::new_objArray(klass, len, props, CHECK_NULL);
   for (int i = 0; i < len; i++) {
     array->obj_at_put(i, init_h() /*, CHECK_NULL*/ );

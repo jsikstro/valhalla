@@ -815,10 +815,10 @@ void PhaseOutput::FillLocArray( int idx, MachSafePointNode* sfpt, Node *local,
         ArrayProperties props;
         if (cik->as_array_klass()->element_klass()->is_inlinetype()) {
           if (cik->as_array_klass()->is_elem_null_free()) {
-            props.set_is_null_restricted(true);
+            props.set_null_restricted();
           }
           if (!cik->as_array_klass()->is_elem_atomic()) {
-            props.set_is_non_atomic(true);
+            props.set_non_atomic();
           }
         }
         properties = new ConstantIntValue((jint)props.value());
@@ -1168,10 +1168,10 @@ void PhaseOutput::Process_OopMap_Node(MachNode *mach, int current_offset) {
             ArrayProperties props;
             if (cik->as_array_klass()->element_klass()->is_inlinetype()) {
               if (cik->as_array_klass()->is_elem_null_free()) {
-                props.set_is_null_restricted(true);
+                props.set_null_restricted();
               }
               if (!cik->as_array_klass()->is_elem_atomic()) {
-                props.set_is_non_atomic(true);
+                props.set_non_atomic();
               }
             }
             properties = new ConstantIntValue((jint)props.value());

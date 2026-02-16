@@ -461,8 +461,7 @@ JRT_ENTRY(void, Runtime1::new_null_free_array(JavaThread* current, Klass* array_
   // Logically creates elements, ensure klass init
   elem_klass->initialize(CHECK);
 
-  ArrayProperties props;
-  props.set_is_null_restricted(true);
+  const ArrayProperties props(ArrayProperties::NullRestricted);
   arrayOop obj = oopFactory::new_objArray(elem_klass, length, props, CHECK);
 
   current->set_vm_result_oop(obj);

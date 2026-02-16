@@ -724,7 +724,7 @@ void ciMethodData::dump_replay_data_type_helper(outputStream* out, int round, in
     } else {
       if (k->is_obj_array_klass()) {
         // We also record the array property to load the correct array class during replay compilation.
-        ArrayProperties array_properties = k->as_obj_array_klass()->properties();
+        const ArrayProperties array_properties = k->as_obj_array_klass()->properties();
         out->print(" %d %s %d", static_cast<int>(dp_to_di(pdata->dp() + in_bytes(offset)) / sizeof(intptr_t)),
                                       CURRENT_ENV->replay_name(k), array_properties.value());
       } else {
