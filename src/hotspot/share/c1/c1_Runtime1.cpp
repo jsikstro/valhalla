@@ -463,7 +463,7 @@ JRT_ENTRY(void, Runtime1::new_null_free_array(JavaThread* current, Klass* array_
 
   ArrayProperties props;
   props.set_is_null_restricted(true);
-  arrayOop obj= oopFactory::new_objArray(elem_klass, length, props, CHECK);
+  arrayOop obj = oopFactory::new_objArray(elem_klass, length, props, CHECK);
 
   current->set_vm_result_oop(obj);
   // This is pretty rare but this runtime patch is stressful to deoptimization

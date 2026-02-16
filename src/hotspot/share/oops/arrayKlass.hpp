@@ -25,7 +25,7 @@
 #ifndef SHARE_OOPS_ARRAYKLASS_HPP
 #define SHARE_OOPS_ARRAYKLASS_HPP
 
-#include "oops/arrayPropertiesFlags.hpp"
+#include "oops/arrayProperties.hpp"
 #include "oops/klass.hpp"
 #include "oops/layoutKind.hpp"
 

@@ -22,16 +22,16 @@
  *
  */
 
-#ifndef SHARE_OOPS_ARRAYPROPERTIESFLAGS_HPP
-#define SHARE_OOPS_ARRAYPROPERTIESFLAGS_HPP
+#ifndef SHARE_OOPS_ARRAYPROPERTIES_HPP
+#define SHARE_OOPS_ARRAYPROPERTIES_HPP
 
 #include "utilities/globalDefinitions.hpp"
 #include "utilities/ostream.hpp"
 
-using array_properties_flags_t = u1;
-
 class ArrayProperties {
  public:
+  typedef u1 Type;
+
 #define ARRAY_PROPERTIES_FLAGS_DO(flag)  \
     flag(is_null_restricted    , 1 << 0) \
     flag(is_non_atomic         , 1 << 1) \
@@ -44,13 +44,13 @@ class ArrayProperties {
   };
 #undef ARRAY_PROPERTIES_FLAGS_ENUM_NAME
 
-  array_properties_flags_t _flags;
+  Type _flags;
 
  public:
   ArrayProperties() : _flags(0) {}
-  ArrayProperties(array_properties_flags_t flags) : _flags(flags) {}
+  ArrayProperties(Type flags) : _flags(flags) {}
 
-  array_properties_flags_t value() const { return _flags; }
+  Type value() const { return _flags; }
 
   // Create getters and setters for the flag values.
 #define ARRAY_PROPERTIES_FLAGS_GET_SET(name, ignore)          \
@@ -79,4 +79,4 @@ inline bool operator==(ArrayProperties a, ArrayProperties b) {
   return a._flags == b._flags;
 }
 
-#endif // SHARE_OOPS_ARRAYPROPERTIESFLAGS_HPP
+#endif // SHARE_OOPS_ARRAYPROPERTIES_HPP
