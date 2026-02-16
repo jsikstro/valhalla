@@ -44,7 +44,8 @@
 #include "oops/refArrayKlass.hpp"
 #include "runtime/handles.inline.hpp"
 
-ArrayKlass::ArrayKlass() {
+ArrayKlass::ArrayKlass()
+  : _properties(ArrayProperties::Default()) {
   assert(CDSConfig::is_dumping_static_archive() || CDSConfig::is_using_archive(), "only for CDS");
 }
 
@@ -220,7 +221,7 @@ oop ArrayKlass::component_mirror() const {
 }
 
 ArrayProperties ArrayKlass::array_properties_from_layout(LayoutKind lk) {
-  ArrayProperties props;
+  ArrayProperties props = ArrayProperties::Default();
   switch(lk) {
     case LayoutKind::NULL_FREE_ATOMIC_FLAT:
       props.set_null_restricted();

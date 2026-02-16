@@ -467,7 +467,7 @@ JVM_ENTRY(jarray, JVM_CopyOfSpecialArray(JNIEnv *env, jarray orig, jint from, ji
     }
     array = ah();
   } else {
-    ArrayProperties props;
+    ArrayProperties props = ArrayProperties::Default();
     if (org->is_null_free_array()) {
       props.set_null_restricted();
     }
@@ -531,7 +531,7 @@ JVM_ENTRY(jarray, JVM_NewNullableAtomicArray(JNIEnv *env, jclass elmClass, jint 
   Klass* klass = java_lang_Class::as_Klass(mirror);
   klass->initialize(CHECK_NULL);
   validate_array_arguments(klass, len, CHECK_NULL);
-  objArrayOop array = oopFactory::new_objArray(klass, len, ArrayProperties(), CHECK_NULL);
+  objArrayOop array = oopFactory::new_objArray(klass, len, ArrayProperties::Default(), CHECK_NULL);
   return (jarray) JNIHandles::make_local(THREAD, array);
 JVM_END
 

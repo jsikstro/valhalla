@@ -164,7 +164,7 @@ public:
 
   ArrayDescription(Klass::KlassKind k, ArrayProperties p, LayoutKind lk)
     : _kind(k),
-      _properties(),
+      _properties(ArrayProperties::Default()),
       _layout_kind(lk) {
 
     if (p.is_null_restricted()) {

@@ -812,7 +812,7 @@ void PhaseOutput::FillLocArray( int idx, MachSafePointNode* sfpt, Node *local,
         }
       }
       if (cik->is_array_klass() && !cik->is_type_array_klass()) {
-        ArrayProperties props;
+        ArrayProperties props = ArrayProperties::Default();
         if (cik->as_array_klass()->element_klass()->is_inlinetype()) {
           if (cik->as_array_klass()->is_elem_null_free()) {
             props.set_null_restricted();
@@ -1165,7 +1165,7 @@ void PhaseOutput::Process_OopMap_Node(MachNode *mach, int current_offset) {
           assert(!cik->is_inlinetype(), "Synchronization on value object?");
           ScopeValue* properties = nullptr;
           if (cik->is_array_klass() && !cik->is_type_array_klass()) {
-            ArrayProperties props;
+            ArrayProperties props = ArrayProperties::Default();
             if (cik->as_array_klass()->element_klass()->is_inlinetype()) {
               if (cik->as_array_klass()->is_elem_null_free()) {
                 props.set_null_restricted();

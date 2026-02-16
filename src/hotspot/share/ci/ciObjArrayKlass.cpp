@@ -151,7 +151,7 @@ ciObjArrayKlass* ciObjArrayKlass::make_impl(ciKlass* element_klass, bool refined
       return CURRENT_THREAD_ENV->get_obj_array_klass(array);
     }
 
-    ArrayProperties props;
+    ArrayProperties props = ArrayProperties::Default();
     if (null_free) {
       assert(element_klass->is_inlinetype(), "Only value class arrays can be null free");
       props.set_null_restricted();

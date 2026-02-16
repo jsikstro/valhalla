@@ -49,8 +49,10 @@ class ArrayProperties {
     }
   }
 
- public:
   ArrayProperties() : _flags(0) {}
+
+ public:
+  static ArrayProperties Default() { return ArrayProperties(); }
   ArrayProperties(Type flags) : _flags(flags) {}
 
   Type value() const { return _flags; }
