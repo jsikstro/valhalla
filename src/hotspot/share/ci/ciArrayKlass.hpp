@@ -53,7 +53,7 @@ public:
   ciType* base_element_type();  // JLS calls this the "element type", (T for T[][])
   bool is_leaf_type();          // No subtypes of this array type.
 
-  bool is_refined() const { return !is_type_array_klass() && !properties().is_invalid(); }
+  bool is_refined() const { return !is_type_array_klass() && properties().is_valid(); }
 
   // What kind of vmObject is this?
   bool is_array_klass() const { return true; }

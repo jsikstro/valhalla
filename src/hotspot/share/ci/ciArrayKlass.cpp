@@ -121,13 +121,13 @@ ciInstance* ciArrayKlass::component_mirror_instance() const {
 
 bool ciArrayKlass::is_elem_null_free() const {
   ArrayProperties props = properties();
-  assert(!props.is_invalid(), "meaningless");
+  assert(props.is_valid(), "meaningless");
   return props.is_null_restricted();
 }
 
 bool ciArrayKlass::is_elem_atomic() const {
   ArrayProperties props = properties();
-  assert(!props.is_invalid(), "meaningless");
+  assert(props.is_valid(), "meaningless");
   return !props.is_non_atomic();
 }
 

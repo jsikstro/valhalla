@@ -56,6 +56,7 @@ class ArrayProperties {
   bool is_null_restricted() const { return check_flag(NullRestricted); };
   bool is_non_atomic() const { return check_flag(NonAtomic); };
   bool is_invalid() const { return check_flag(Invalid); };
+  bool is_valid() const { return !check_flag(Invalid); }
 
   void set_null_restricted() { set_flag(NullRestricted, true); }
   void set_non_atomic() { set_flag(NonAtomic, true); }

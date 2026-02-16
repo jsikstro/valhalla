@@ -406,7 +406,7 @@ PackageEntry* ObjArrayKlass::package() const {
 }
 
 ObjArrayKlass* ObjArrayKlass::klass_with_properties(ArrayProperties props, TRAPS) {
-  assert(!props.is_invalid(), "Sanity check");
+  assert(props.is_valid(), "Sanity check");
   ArrayDescription ad = array_layout_selection(element_klass(), props);
   props = ad._properties;
 

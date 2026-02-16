@@ -897,7 +897,7 @@ class CompileReplay : public StackObj {
       return obj_array_klass;
     }
 
-    guarantee(!array_properties.is_invalid(), "invalid array_properties: %d", array_properties.value());
+    guarantee(array_properties.is_valid(), "invalid array_properties: %d", array_properties.value());
 
     return obj_array_klass->klass_with_properties(array_properties, THREAD);
   }
